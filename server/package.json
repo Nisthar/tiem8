@@ -1,0 +1,29 @@
+{
+  "name": "tiem8-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js --watch lib --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nisthar",
+  "license": "ISC",
+  "dependencies": {
+    "@chec/commerce.js": "^2.8.0",
+    "@google-cloud/dialogflow": "^4.6.0",
+    "@types/chec__commerce.js": "^2.8.4",
+    "actions-on-google": "^2.14.0",
+    "body-parser": "^1.19.2",
+    "dialogflow-fulfillment": "^0.6.1",
+    "express": "^4.17.3",
+    "fastify": "^3.27.4",
+    "fastify-cors": "^6.0.3",
+    "firebase-admin": "^10.0.2",
+    "nanoid": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.3"
+  }
+}
