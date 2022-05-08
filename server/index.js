@@ -83,6 +83,10 @@ app.post('/api/webhook', async (req, res) => {
 				}
 			}
 
+			if (matchingProducts.length === 0) {
+				return agent.add("Sorry, we don't have any products that match your specifications");
+			}
+
 			agent.add(
 				new Payload(
 					agent.UNSPECIFIED,
@@ -90,7 +94,7 @@ app.post('/api/webhook', async (req, res) => {
 						title: matchingProducts[0].name,
 						subtitle: matchingProducts[0].price.raw.toString(),
 						imageUrl: matchingProducts[0].image.url,
-						buttons: [{ text: 'Buy', postback: 'Buy' }]
+						buyLink: matchingProducts[0].checkout_url?.checkout
 					}),
 					{ sendAsMessage: true, rawPayload: true }
 				)
@@ -156,7 +160,7 @@ app.post('/api/webhook', async (req, res) => {
 	}
 });
 
-function makeCardRes({ title, subtitle, imageUrl, buttons }) {
+function makeCardRes({ title, subtitle, imageUrl, buyLink }) {
 	return (response = {
 		richContent: [
 			[
@@ -180,12 +184,12 @@ function makeCardRes({ title, subtitle, imageUrl, buttons }) {
 					options: [
 						{
 							text: 'Buy now',
-							image: {
-								src: {
-									rawUrl: 'https://example.com/images/logo.png'
-								}
-							},
-							link: `${appUrl}/buy`
+							// image: {
+							// 	src: {
+							// 		rawUrl: 'https://example.com/images/logo.png'
+							// 	}
+							// },
+							link: `${buyLink}`
 						}
 					]
 				}
@@ -222,14 +226,16 @@ app.post('/api/sendMsg', async (request, res) => {
 });
 
 // Run the server!
-const start = async () => {
-	try {
-		app.listen(port, () => {
-			console.log(`Server listening on port ${port}`);
-		});
-	} catch (err) {
-		console.error(err);
-		process.exit(1);
-	}
-};
-start();
+// const start = async () => {
+// 	try {
+// 		app.listen(port, () => {
+// 			console.log(`Server listening on port ${port}`);
+// 		});
+// 	} catch (err) {
+// 		console.error(err);
+// 		process.exit(1);
+// 	}
+// };
+// start();
+
+module.exports = app;
