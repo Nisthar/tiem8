@@ -1,1 +1,1 @@
-export const apiUrl = 'http://localhost:1337/api';
+export const apiUrl = 'https://tiem8-3j8y9dstj-nistharkalathilk.vercel.app/api';

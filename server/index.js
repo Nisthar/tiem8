@@ -8,6 +8,7 @@ const { nanoid } = require('nanoid');
 
 // expressjs server
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const { Payload } = require('dialogflow-fulfillment');
 const app = express();
@@ -18,7 +19,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-
+app.get('/', (req, res) => {
+	return res.sendFile(path.join(__dirname, './../build/index.html'));
+});
+app.use(express.static(path.join(__dirname, './../build')));
 app.get('/status', function (req, res) {
 	return res.json('Server is running');
 });
@@ -237,5 +241,4 @@ app.post('/api/sendMsg', async (request, res) => {
 // 	}
 // };
 // start();
-
 module.exports = app;
