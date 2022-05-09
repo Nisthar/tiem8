@@ -230,15 +230,14 @@ app.post('/api/sendMsg', async (request, res) => {
 });
 
 // Run the server!
-// const start = async () => {
-// 	try {
-// 		app.listen(port, () => {
-// 			console.log(`Server listening on port ${port}`);
-// 		});
-// 	} catch (err) {
-// 		console.error(err);
-// 		process.exit(1);
-// 	}
-// };
-// start();
-module.exports = app;
+const start = async () => {
+	try {
+		app.listen(port, () => {
+			console.log(`Server listening on port ${port}`);
+		});
+	} catch (err) {
+		console.error(err);
+		process.exit(1);
+	}
+};
+start();
