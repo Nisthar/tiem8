@@ -56,52 +56,53 @@ app.post('/api/webhook', async (req, res) => {
 		const budget = agent.context.get('awaitingbudget');
 		console.log(budget);
 		budgetLimit = agent.parameters.budget;
-		if (productType && budgetLimit) {
-			const data = await commerce.products.list({ query: productType });
-			const products = data?.data;
-			const regex = /(\d+)GB\s(?:ram|memory).*(\d{3,})GB\s(?:ssd|hdd|storage)/gim;
-			if (!products) return agent.add("Sorry, we don't have any products of that type");
-			//loop through each product and find the one with the lowest price
-			let cheapestProduct = products[0];
-			//map through products and find the cheapest one
-			for (let k = 0; k < products.length; k++) {
-				const product = products[k];
-
-				const matchSpecs = regex.exec(product.name);
-
-				if (
-					product.name.toLowerCase().indexOf(brand.toLowerCase()) == -1 &&
-					product.price.raw > budgetLimit
-				) {
-					continue;
-				}
-
-				const isMatching = Object.keys(specifications).every((spec, i) => {
-					const specValue = Object.values(specifications)[i];
-					return specValue.amount == matchSpecs?.[i + 1];
-				});
-				if (isMatching) {
-					matchingProducts.push(product);
-				}
-			}
-
-			if (matchingProducts.length === 0) {
-				return agent.add("Sorry, we don't have any products that match your specifications");
-			}
-
-			agent.add(
-				new Payload(
-					agent.UNSPECIFIED,
-					makeCardRes({
-						title: matchingProducts[0].name,
-						subtitle: matchingProducts[0].price.raw.toString(),
-						imageUrl: matchingProducts[0].image.url,
-						buyLink: matchingProducts[0].checkout_url?.checkout
-					}),
-					{ sendAsMessage: true, rawPayload: true }
-				)
-			);
+		if (!productType || !budgetLimit) {
+			return agent.add(`Sorry please refresh the page and try again`);
 		}
+		const data = await commerce.products.list({ query: productType });
+		const products = data?.data;
+		const regex = /(\d+)GB\s(?:ram|memory|primary).*(\d{3,})GB\s(?:ssd|hdd|storage)/gim;
+		if (!products) return agent.add("Sorry, we don't have any products of that type");
+		//loop through each product and find the one with the lowest price
+		let cheapestProduct = products[0];
+		//map through products and find the cheapest one
+		for (let k = 0; k < products.length; k++) {
+			const product = products[k];
+
+			const matchSpecs = regex.exec(product.name);
+
+			if (
+				product.name.toLowerCase().indexOf(brand.toLowerCase()) == -1 &&
+				product.price.raw > budgetLimit
+			) {
+				continue;
+			}
+
+			const isMatching = Object.keys(specifications).every((spec, i) => {
+				const specValue = Object.values(specifications)[i];
+				return specValue.amount == matchSpecs?.[i + 1];
+			});
+			if (isMatching) {
+				matchingProducts.push(product);
+			}
+		}
+
+		if (matchingProducts.length === 0) {
+			return agent.add("Sorry, we don't have any products that match your specifications");
+		}
+
+		agent.add(
+			new Payload(
+				agent.UNSPECIFIED,
+				makeCardRes({
+					title: matchingProducts[0].name,
+					subtitle: matchingProducts[0].price.raw.toString(),
+					imageUrl: matchingProducts[0].image.url,
+					buyLink: matchingProducts[0].checkout_url?.checkout
+				}),
+				{ sendAsMessage: true, rawPayload: true }
+			)
+		);
 	}
 
 	function captureProductType(agent) {
