@@ -12,8 +12,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const { Payload } = require('dialogflow-fulfillment');
 const app = express();
-const port = 1337;
-const appUrl = 'http://localhost:1337';
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -232,8 +230,8 @@ app.post('/api/sendMsg', async (request, res) => {
 // Run the server!
 const start = async () => {
 	try {
-		app.listen(port, () => {
-			console.log(`Server listening on port ${port}`);
+		app.listen(process.env.PORT || 3000, () => {
+			console.log(`Server started on port ${process.env.PORT || 3000}`);
 		});
 	} catch (err) {
 		console.error(err);
