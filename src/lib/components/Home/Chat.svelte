@@ -1,11 +1,12 @@
 <script>
+	import { apiUrl } from '$lib/global';
+
 	let msg = '';
 	let chatHistory = [];
 	async function sendChatMsg(e) {
 		if (e.keyCode === 13) {
 			chatHistory = [...chatHistory, { msg, user: 'me' }];
-			// @ts-ignore
-			const req = await fetch(`${import.meta.env.VITE_VERCEL_URL}/sendMsg`, {
+			const req = await fetch(`${apiUrl}/sendMsg`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
