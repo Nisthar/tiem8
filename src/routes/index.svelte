@@ -1,8 +1,7 @@
 <script context="module">
-	import { apiUrl } from '$lib/global';
-
 	export async function load({ fetch }) {
-		const req = await fetch(`${apiUrl}/products`);
+		// @ts-ignore
+		const req = await fetch(`${import.meta.env.VITE_VERCEL_URL}/products`);
 		const res = await req.json();
 		return {
 			props: {
@@ -29,7 +28,8 @@
 		//add the script tag to the head
 		document.body.appendChild(script);
 
-		const req = await fetch(`${apiUrl}/welcome`);
+		// @ts-ignore
+		const req = await fetch(`${import.meta.env.VITE_VERCEL_URL}/welcome`);
 		const res = await req.json();
 		console.log(res);
 		const dfWidget = document.getElementById('widgetIcon');
