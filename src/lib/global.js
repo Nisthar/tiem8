@@ -1,1 +1,1 @@
-export const apiUrl = 'https://tiem8-3j8y9dstj-nistharkalathilk.vercel.app/api';
+export const apiUrl = 'https://tiem8-server.herokuapp.com/api';
