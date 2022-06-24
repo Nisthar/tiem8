@@ -80,7 +80,7 @@ app.post('/api/webhook', async (req, res) => {
 
 			const isMatching = Object.keys(specifications).every((spec, i) => {
 				const specValue = Object.values(specifications)[i];
-				return specValue.amount == matchSpecs?.[i + 1];
+				return specValue.amount >= matchSpecs?.[i + 1];
 			});
 			if (isMatching) {
 				matchingProducts.push(product);
