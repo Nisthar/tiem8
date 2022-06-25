@@ -124,8 +124,7 @@ app.post('/api/webhook', async (req, res) => {
 	}
 
 	function captureProductType(agent) {
-		matchingProducts = [];
-		productType = agent.parameters.product;
+		productType = agent.query;
 
 		// if (productType === 'laptop' || productType === 'mobile') {
 		agent.add(`What brand ${productType} do you want to buy?`);
@@ -134,7 +133,6 @@ app.post('/api/webhook', async (req, res) => {
 
 	function askForBrand(agent) {
 		brand = agent.query;
-		console.log(brand);
 		if (brand) agent.add(`What specifications do you need?`);
 	}
 	function askForSpecifications(agent) {
