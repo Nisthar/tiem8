@@ -26,5 +26,10 @@
 		"svelte": "^3.44.0",
 		"tailwindcss": "^3.0.23"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@types/chec__commerce.js": "^2.8.5",
+		"amazon-buddy": "^2.2.41",
+		"axios": "^0.27.2"
+	}
 }
